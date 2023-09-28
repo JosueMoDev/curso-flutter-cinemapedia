@@ -1,3 +1,3 @@
-export 'datasources/movie_datasource.dart';
-export 'repositories/movie_repository.dart';
+export 'datasources/movies_datasource.dart';
+export 'repositories/movies_repository.dart';
 export 'entities/movie.dart';

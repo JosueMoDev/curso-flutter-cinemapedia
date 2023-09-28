@@ -1,3 +1,4 @@
+.env
 # Miscellaneous
 *.class
 *.log
@@ -8,7 +9,6 @@
 .buildlog/
 .history
 .svn/
-.env
 migrate_working_dir/
 
 # IntelliJ related
