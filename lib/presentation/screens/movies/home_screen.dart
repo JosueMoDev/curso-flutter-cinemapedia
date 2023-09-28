@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/presentation/providers/movies/movies_providers.dart';
+import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -30,11 +30,11 @@ class _HomoViewState extends ConsumerState<_HomoView> {
   }
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final nowPlayingSlideShowMovies = ref.watch(moviesSlideShowProvider);
     return Column(
       children: [
         const CustomAppBar(),
-        MoviesSlideshow(movies: nowPlayingMovies)       
+        MoviesSlideshow(movies: nowPlayingSlideShowMovies)       
       ]
     );
   }
