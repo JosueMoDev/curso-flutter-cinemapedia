@@ -10,7 +10,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: _HomoView()
+      body: _HomoView(),
+      bottomNavigationBar: CustomNavigationBar(),
     );
   }
 }
@@ -31,10 +32,17 @@ class _HomoViewState extends ConsumerState<_HomoView> {
   @override
   Widget build(BuildContext context) {
     final nowPlayingSlideShowMovies = ref.watch(moviesSlideShowProvider);
+    final movies = ref.watch(nowPlayingMoviesProvider);
     return Column(
       children: [
         const CustomAppBar(),
-        MoviesSlideshow(movies: nowPlayingSlideShowMovies)       
+        MoviesSlideshow(movies: nowPlayingSlideShowMovies),
+        MovieHorizontalListView(
+          movies: movies,
+          title: 'On Cinema',
+          subTitle: 'Monday 2th',
+          loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+        )       
       ]
     );
   }

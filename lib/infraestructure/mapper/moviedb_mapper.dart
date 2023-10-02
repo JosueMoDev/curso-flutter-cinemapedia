@@ -16,7 +16,7 @@ class MovieMapper {
       overview: moviedb.overview,
       popularity: moviedb.popularity,
       posterPath: (moviedb.posterPath != '') 
-      ? '${Environment.imageServer}size${moviedb.posterPath}'
+      ? '${Environment.imageServer}$size${moviedb.posterPath}'
       : 'no-poster',
       releaseDate: moviedb.releaseDate,
       title: moviedb.title,
