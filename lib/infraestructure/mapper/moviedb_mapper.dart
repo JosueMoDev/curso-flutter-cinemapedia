@@ -1,6 +1,6 @@
 import 'package:movies_app/config/constant/environment.dart';
 import 'package:movies_app/domian/entities/movie.dart';
-import 'package:movies_app/infraestructure/models/movie_moviedb.dart';
+import 'package:movies_app/infraestructure/models/moviedb/movie_moviedb.dart';
 
 class MovieMapper {
   static String size = '/w500';
