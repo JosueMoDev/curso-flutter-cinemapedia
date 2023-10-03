@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/domian/entities/movie.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
+import 'package:movies_app/presentation/widgets/movies/movie_custom_sliver_appbar.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie_screen';
@@ -35,7 +36,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       );
     }
     return Scaffold(
-      appBar: AppBar(title: Text(widget.movieId)),
+      body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [CustomSliverAppBar(movie: movie)],
+      ),
     );
   }
 }
