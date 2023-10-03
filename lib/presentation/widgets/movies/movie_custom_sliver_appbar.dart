@@ -8,18 +8,12 @@ class CustomSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final textThme = Theme.of(context).textTheme;
     return SliverAppBar(
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        title: Text(
-          movie.title,
-          style: textThme.titleMedium?.copyWith(color: Colors.white),
-          textAlign: TextAlign.start,
-        ),
         background: Stack(
           children: [
             SizedBox.expand(
