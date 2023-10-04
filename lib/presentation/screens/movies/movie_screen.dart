@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/domian/entities/movie.dart';
@@ -20,6 +23,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
     ref.read(sigleMovieDetailsProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorByMovieProvider.notifier).loadActorList(widget.movieId);
   }
 
   @override
@@ -41,7 +45,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         slivers: [
           CustomSliverAppBar(movie: movie),
           SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) => _MovieDetails(movie: movie), childCount: 1),
+            delegate: SliverChildBuilderDelegate(
+                (context, index) => _MovieDetails(movie: movie),
+                childCount: 1),
           )
         ],
       ),
@@ -66,13 +72,15 @@ class _MovieDetails extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  movie.backdropPath,
-                  width: size.width * 0.3,
-                  height: size.height * 0.2,
-                  fit: BoxFit.cover,
+              FadeInRight(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    movie.backdropPath,
+                    width: size.width * 0.3,
+                    height: size.height * 0.2,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -113,10 +121,57 @@ class _MovieDetails extends StatelessWidget {
             ],
           ),
         ),
+        _ActorsList(movieId: movie.id.toString()),
         const SizedBox(
           height: 100,
         )
       ],
+    );
+  }
+}
+
+class _ActorsList extends ConsumerWidget {
+  final String movieId;
+  const _ActorsList({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorList = ref.watch(actorByMovieProvider);
+    final textTheme = Theme.of(context).textTheme;
+    if (actorList[movieId] == null) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
+    final actorByMovie = actorList[movieId]!;
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actorByMovie.length,
+        itemBuilder: (context, index) {
+          final actor = actorByMovie[index];
+          return Container(
+            padding: const EdgeInsets.all(8),
+            width: 135,
+            child: Column(children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    actor.profilePath,
+                    height: 180,
+                    width: 135,
+                    fit: BoxFit.cover,
+                  ),
+              ),
+              const SizedBox(height: 5),
+              Text(actor.name, maxLines: 2, style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+              if (actor.character!=null)
+                Text(actor.character!, maxLines: 2, style: textTheme.bodyMedium),
+              
+
+            ]),
+          );
+        },
+      ),
     );
   }
 }
