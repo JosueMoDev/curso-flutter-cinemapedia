@@ -70,15 +70,13 @@ class _MovieDetails extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FadeInRight(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    movie.backdropPath,
-                    width: size.width * 0.3,
-                    height: size.height * 0.2,
-                    fit: BoxFit.cover,
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.backdropPath,
+                  width: size.width * 0.3,
+                  height: size.height * 0.2,
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(width: 10),
@@ -151,14 +149,16 @@ class _ActorsList extends ConsumerWidget {
             padding: const EdgeInsets.all(8),
             width: 135,
             child: Column(children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    actor.profilePath,
-                    height: 180,
-                    width: 135,
-                    fit: BoxFit.cover,
-                  ),
+              FadeInRight(
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      height: 180,
+                      width: 135,
+                      fit: BoxFit.cover,
+                    ),
+                ),
               ),
               const SizedBox(height: 5),
               Text(actor.name, maxLines: 2, style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
