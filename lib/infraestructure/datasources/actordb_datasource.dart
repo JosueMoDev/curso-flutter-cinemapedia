@@ -15,7 +15,7 @@ class ActorsDBDataSource extends ActorsDatasource {
     final response = await dio.get('/movie/$movieId/credits');
     final castingResponse = CastingResponse.fromJson(response.data);
     final List<Actor> actorsList = castingResponse.cast
-        .where((actor) => actor.profilePath != 'no-poster')
+        .where((actor) => actor.profilePath != null)
         .map((actor) => ActorMapper.castingToEntity(actor))
         .toList();
     return actorsList;

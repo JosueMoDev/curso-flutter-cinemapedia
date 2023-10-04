@@ -8,7 +8,7 @@ class ActorMapper {
         id: casting.id,
         name: casting.name,
         profilePath:
-            casting.profilePath != null ? '${Environment.imageServer}$size${casting.profilePath}' : 'no-profile',
+            (casting.profilePath != null) ? '${Environment.imageServer}$size${casting.profilePath}' : 'no-profile',
         character: casting.character,
       );
 }
