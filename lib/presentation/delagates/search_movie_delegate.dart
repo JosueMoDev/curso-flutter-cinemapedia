@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/config/helpers/helpers.dart';
@@ -7,8 +9,26 @@ typedef SearchMovieCallBack = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMovieCallBack searchMovieCallBack;
+  StreamController<List<Movie>> debouncedMoviesQuery = StreamController.broadcast();
+  Timer? _debounceTimer;
 
   SearchMovieDelegate({required this.searchMovieCallBack});
+
+  void clearSteams() {
+    debouncedMoviesQuery.close();
+  }
+
+  void _onQueryChanged(String query) {
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      if (query.isEmpty) {
+        debouncedMoviesQuery.add([]);
+        return;
+      }
+      final movies = await searchMovieCallBack(query);
+      debouncedMoviesQuery.add(movies);
+    });
+  }
 
   @override
   String get searchFieldLabel => 'Search Movie';
@@ -29,7 +49,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, null),
+        onPressed: () {
+          clearSteams();
+          close(context, null);
+        },
         icon: const Icon(
           Icons.arrow_back_ios_new_outlined,
           color: Colors.black45,
@@ -38,24 +61,28 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
-      future: searchMovieCallBack(query),
+    return const Text('buildSuggestions');
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    _onQueryChanged(query);
+    return StreamBuilder(
+      stream: debouncedMoviesQuery.stream,
       builder: (context, snapshot) {
         final movies = snapshot.data ?? [];
         return ListView.builder(
           itemCount: movies.length,
           itemBuilder: (context, index) => _MovieItem(
             movie: movies[index],
-            onMovieSelected: close,
+            onMovieSelected: (contex, movie) {
+              clearSteams();
+              close(context, movie);
+            },
           ),
         );
       },
     );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return const Text('buildSuggestions');
   }
 }
 
