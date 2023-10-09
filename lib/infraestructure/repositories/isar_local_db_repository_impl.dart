@@ -7,7 +7,7 @@ class IsarLocalDBRepositoryImpl extends IsarLocalDBRepository {
   IsarLocalDBRepositoryImpl(this.isarLocalDBDatasource);
   @override
   Future<bool> isMovieFavorite(int movieId) {
-   return isarLocalDBDatasource.isMovieFavorite(movieId);
+    return isarLocalDBDatasource.isMovieFavorite(movieId);
   }
 
   @override
@@ -17,7 +17,6 @@ class IsarLocalDBRepositoryImpl extends IsarLocalDBRepository {
 
   @override
   Future<void> toggleFavorite(Movie movie) {
-    return toggleFavorite(movie);
+    return isarLocalDBDatasource.toggleFavorite(movie);
   }
-
 }

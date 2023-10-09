@@ -13,8 +13,7 @@ class IsarLocalDBDatasourceImpl extends IsarLocalDBDatasource {
   Future<Isar> openDB() async {
     final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([MovieSchema],
-          inspector: true, directory: dir.path);
+      return await Isar.open([MovieSchema], inspector: true, directory: dir.path);
     }
     return Future.value(Isar.getInstance());
   }
@@ -22,8 +21,7 @@ class IsarLocalDBDatasourceImpl extends IsarLocalDBDatasource {
   @override
   Future<bool> isMovieFavorite(int movieId) async {
     final isar = await localdb;
-    final Movie? isMovieFavorite =
-        await isar.movies.filter().idEqualTo(movieId).findFirst();
+    final Movie? isMovieFavorite = await isar.movies.filter().idEqualTo(movieId).findFirst();
 
     return isMovieFavorite != null;
   }
@@ -32,7 +30,6 @@ class IsarLocalDBDatasourceImpl extends IsarLocalDBDatasource {
   Future<void> toggleFavorite(Movie movie) async {
     final isar = await localdb;
     final favoriteMovie = await isar.movies.filter().idEqualTo(movie.id).findFirst();
-
     if (favoriteMovie != null) {
       isar.writeTxnSync(() => isar.movies.deleteSync(favoriteMovie.isarId!));
       return;
