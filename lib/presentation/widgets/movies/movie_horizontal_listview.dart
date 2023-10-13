@@ -6,17 +6,11 @@ import 'package:movies_app/domian/domain.dart';
 
 class MovieHorizontalListView extends StatefulWidget {
   final List<Movie> movies;
-  final String ? title;
+  final String? title;
   final String? subTitle;
   final VoidCallback? loadNextPage;
 
-  const MovieHorizontalListView({
-    super.key,
-    required this.movies, 
-    this.title, 
-    this.subTitle, 
-    this.loadNextPage
-  });
+  const MovieHorizontalListView({super.key, required this.movies, this.title, this.subTitle, this.loadNextPage});
 
   @override
   State<MovieHorizontalListView> createState() => _MovieHorizontalListViewState();
@@ -25,18 +19,18 @@ class MovieHorizontalListView extends StatefulWidget {
 class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
   final scrollController = ScrollController();
   @override
-  void initState(){
+  void initState() {
     super.initState();
     scrollController.addListener(() {
-      if(widget.loadNextPage == null) return;
-      if( (scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent){
+      if (widget.loadNextPage == null) return;
+      if ((scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
     });
   }
 
   @override
-  void dispose(){
+  void dispose() {
     scrollController.dispose();
     super.dispose();
   }
@@ -47,18 +41,21 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
       height: 350,
       child: Column(
         children: [
-          if(widget.title != null || widget.subTitle != null) 
-            _Title(title:widget.title , subTitle: widget.subTitle,),
+          if (widget.title != null || widget.subTitle != null)
+            _Title(
+              title: widget.title,
+              subTitle: widget.subTitle,
+            ),
           Expanded(
             child: ListView.builder(
               controller: scrollController,
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemBuilder:(context, index) {
+              itemBuilder: (context, index) {
                 return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
-            ) ,
+            ),
           )
         ],
       ),
@@ -88,18 +85,12 @@ class _Slide extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 150,
                 loadingBuilder: (context, child, loadingProgress) {
-                  if(loadingProgress != null){
+                  if (loadingProgress != null) {
                     return const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Center( 
-                        child: CircularProgressIndicator( strokeWidth: 2)
-                      )
-                    );
+                        padding: EdgeInsets.all(8), child: Center(child: CircularProgressIndicator(strokeWidth: 2)));
                   }
                   return GestureDetector(
-                    onTap: () => context.push('/home/0/movie/${movie.id}'),
-                    child: FadeIn(child: child)
-                  );
+                      onTap: () => context.push('/home/0/movie/${movie.id}'), child: FadeIn(child: child));
                 },
               ),
             ),
@@ -124,9 +115,7 @@ class _Slide extends StatelessWidget {
                 const SizedBox(width: 3),
                 Text(
                   '${movie.voteAverage}',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: Colors.yellow.shade800
-                  ),
+                  style: textTheme.bodyMedium?.copyWith(color: Colors.yellow.shade800),
                 ),
                 const Spacer(),
                 Text(
@@ -157,18 +146,15 @@ class _Title extends StatelessWidget {
         children: [
           if (title != null)
             Text(
-              title!, 
-              style: fontStyle.titleLarge,
+              title!,
+              style: fontStyle.headlineMedium,
             ),
           const Spacer(),
-          if (subTitle != null )
+          if (subTitle != null)
             FilledButton(
-              style: const ButtonStyle(
-                visualDensity: VisualDensity.compact
-              ),
-              onPressed: (){},
-              child: Text( subTitle!)
-            )
+                style: const ButtonStyle(visualDensity: VisualDensity.compact),
+                onPressed: () {},
+                child: Text(subTitle!))
         ],
       ),
     );

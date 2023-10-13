@@ -6,17 +6,17 @@ class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({super.key, required this.currentIndex});
 
   void onItemTapped(BuildContext context, int index) {
-    switch (index){
+    switch (index) {
       case 0:
-      return context.go('/home/0');
+        return context.go('/home/0');
       case 1:
-      return context.go('/home/1');
+        return context.go('/home/1');
       case 2:
-      return context.go('/home/2');
-      case 3: 
-      return context.go('/home/3');
+        return context.go('/home/2');
+      case 3:
+        return context.go('/home/3');
       default:
-      return context.go('/home/0');
+        return context.go('/home/0');
     }
   }
 
@@ -41,7 +41,7 @@ class CustomNavigationBar extends StatelessWidget {
           label: 'favorites',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+          icon: Icon(Icons.manage_accounts),
           label: 'account',
         ),
       ],

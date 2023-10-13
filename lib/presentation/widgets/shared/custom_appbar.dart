@@ -20,11 +20,12 @@ class CustomAppBar extends ConsumerWidget {
           child: Row(
             children: [
               Icon(
-                Icons.movie_outlined,
+                Icons.movie_creation,
+                size: 30,
                 color: colorTheme.primary,
               ),
               const SizedBox(width: 5),
-              Text('CinemapeliSv', style: fontTheme.titleMedium),
+              Text('CinemapeliSv', style: fontTheme.headlineLarge),
               const Spacer(),
               IconButton(
                   onPressed: () {
